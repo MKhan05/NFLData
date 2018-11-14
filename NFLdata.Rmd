@@ -5,13 +5,6 @@ date: "11/13/2018"
 output: html_document
 ---
 
-
-blah
-
-can you see this?
-
-Yes I can see this -> Navin
-
 ```{r}
 library(tidyverse)
 ```
