@@ -11,3 +11,18 @@ blah
 can you see this?
 
 Yes I can see this -> Navin
+
+```{r}
+library(tidyverse)
+```
+
+
+First to read in and display our data:
+
+```{r}
+my_url = "http://www.utsc.utoronto.ca/%7ebutler/c32/qbrating.txt"
+
+qbrating = read.table(my_url, head=T)
+qbrating
+```
+
