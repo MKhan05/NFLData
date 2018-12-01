@@ -32,3 +32,10 @@ Steps:
 
 test - Vincent
 test - Stephen hello world
+
+##Plot of Stats against Rating
+```{r}
+qbrating %>% gather(stats,x, c(completions:sacks)) %>% 
+  ggplot(aes(x=x,y=rating,color = player))+geom_point()+facet_wrap(~stats,scales = "free")
+```
+
