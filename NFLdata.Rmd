@@ -42,12 +42,21 @@ Steps:
 -Summary/Conclusion
 
 
-
-test - Vincent
-test - Stephen hello world
-
 ##Plot of Stats against Rating
 ```{r}
 qbrating %>% gather(stats,x, c(completions:sacks)) %>% 
   ggplot(aes(x=x,y=rating,color = player))+geom_point()+facet_wrap(~stats,scales = "free")
+```
+
+## Attempt to do residuals.
+```{r}
+.remove = qbrating[,-(1:2)]
+.remove
+.remove.stack = stack(.remove)
+.remove.stack
+model = lm(values~ind, data=.remove.stack)
+plot(model)
+residuals = resid(model)
+plot(residuals)
+#Might need to change scaling?
 ```
