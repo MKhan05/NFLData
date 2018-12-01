@@ -5,6 +5,12 @@ date: "11/13/2018"
 output: html_document
 ---
 
+
+## Introduction
+
+In any professional sports league (here, being the NFL), one of the things us fans really like to do is rank players in terms of skill. One of the most common ways for fans to make an argument for one player being better than another is using advanced statistics, more specifically, comparing their player efficiency ratings (PER). This efficiency rating is calculated using the player's per game statistics but obviously some statistics should be weighted more than others (i.e. touchdowns should be worth more than number of passing attempts.). Our goal in this report is to figure out how exactly the NFL calculates player efficiency rating through the use of techniques learned within this course.
+
+
 ```{r}
 library(tidyverse)
 ```
