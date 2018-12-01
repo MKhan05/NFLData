@@ -19,6 +19,9 @@ qbrating = read.table(my_url, head=T)
 qbrating
 ```
 
+Looking at the statistics in the data frame and using our prior knowledge that the qbrating was calculated over the whole season we will only consider the season totals when running our analysis.
+
+
 Steps:
 -Introduction
 -Adjust the units of the data before any analysis can be done (b/c its per game not per season or vice versa) *If the stat is per game multiply it by 16 to get the value for the whole season because an NFL season consists of 16 games*
@@ -38,4 +41,3 @@ test - Stephen hello world
 qbrating %>% gather(stats,x, c(completions:sacks)) %>% 
   ggplot(aes(x=x,y=rating,color = player))+geom_point()+facet_wrap(~stats,scales = "free")
 ```
-
