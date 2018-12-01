@@ -22,7 +22,7 @@ qbrating
 Steps:
 -Introduction
 -Adjust the units of the data before any analysis can be done (b/c its per game not per season or vice versa)
--Potential Chi Square Plot
+-Potential Residual Plot
 -Run a multiple regression
 -See which variables are significant
 -Run the regression again without the insignificant variables
