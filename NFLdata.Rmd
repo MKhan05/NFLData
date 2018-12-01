@@ -21,7 +21,7 @@ qbrating
 
 Steps:
 -Introduction
--Adjust the units of the data before any analysis can be done (b/c its per game not per season or vice versa)
+-Adjust the units of the data before any analysis can be done (b/c its per game not per season or vice versa) *If the stat is per game multiply it by 16 to get the value for the whole season because an NFL season consists of 16 games*
 -Potential Residual Plot
 -Run a multiple regression
 -See which variables are significant
