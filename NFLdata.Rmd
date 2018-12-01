@@ -50,7 +50,7 @@ qbrating %>% gather(stats,x, c(completions:sacks)) %>%
 
 ## Attempt to do residuals.
 ```{r}
-.remove = qbrating[,-(1:2)]
+.remove = qbrating[,-(1:4)]
 .remove
 .remove.stack = stack(.remove)
 .remove.stack
