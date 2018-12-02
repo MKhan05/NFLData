@@ -17,6 +17,7 @@ passing attempts.). Our goal in this report is to figure out how exactly the NFL
 
 ```{r}
 library(tidyverse)
+library(broom)
 ```
 
 
@@ -97,6 +98,8 @@ NFL_reg5 = lm(rating~attempts+percent.complete+yards+td+int+first.down+first.dow
 summary(NFL_reg5)
 ```
 
+Dropping percent.complete:
+
 ```{r}
 NFL_reg6 = lm(rating~attempts+yards+td+int+first.down+first.down.percent, data=qbrating)
 summary(NFL_reg6)
@@ -117,4 +120,9 @@ summary(NFL_reg8)
 ```
 
 All values are significant. We have a R-squared value of 0.8135 (compared to the 0.8511 we started with) which is not much of a drop. 
+
+## Using built in R function to double check backwards elimination:
+```{r}
+step(NFL_reg, direction="backward")
+```
 
