@@ -54,13 +54,10 @@ qbrating %>% gather(stats,x, c(completions:sacks)) %>%
 ```{r}
 .remove = qbrating[,-(1:4)]
 .remove
-.remove.stack = stack(.remove)
-.remove.stack
-model = lm(values~ind, data=.remove.stack)
-plot(model)
-residuals = resid(model)
+model2 = glm(rating~completions+attempts+percent.complete+attempts.game+yards+average.yards+yards.per.game+td+int+first.down+first.down.percent+twenty.plus+forty.plus+sacks, data=.remove)
+plot(model2)
+residuals = resid(model2)
 plot(residuals)
-#Might need to change scaling?
 ```
 
 ## Attempt to do regression:
