@@ -127,5 +127,18 @@ plot(res)
 ```
 
 
+```{r}
+g=ggplot(NFL_reg6, aes(y=.resid,x=.fitted))+geom_point()
 
+g
+```
 
+```{r}
+g.2 = ggplot(NFL_reg7, aes(y=.resid,x=.fitted))+geom_point()
+
+g.2
+```
+
+## Conclusion
+
+After careful analysis we can see that not all variables provided in the dataset were important in predicting the quarterbacks' effeciency rating. 
