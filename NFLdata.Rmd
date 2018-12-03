@@ -16,6 +16,7 @@ specifically, comparing their player efficiency ratings (PER). This efficiency r
 statistics but obviously some statistics should be weighted more than others (i.e. touchdowns should be worth more than number of 
 passing attempts.). Our goal in this report is to figure out how exactly the NFL calculates player efficiency rating through the use of techniques learned within this course.
 
+
 The packages we will need for our analysis:
 ```{r}
 library(tidyverse)
@@ -24,7 +25,6 @@ library(broom)
 
 
 First to read in and display our data:
-
 ```{r}
 my_url = "http://www.utsc.utoronto.ca/%7ebutler/c32/qbrating.txt"
 
@@ -40,16 +40,6 @@ Here, our data is a 49 rows by 20 columns data set with categories rankings, pla
 Looking at the statistics in the data frame and using our prior knowledge that the qbrating was calculated over the whole season we will only consider the season totals when running our analysis.
 
 
-Steps:
--Introduction
--Adjust the units of the data before any analysis can be done (b/c its per game not per season or vice versa) *If the stat is per game multiply it by 16 to get the value for the whole season because an NFL season consists of 16 games*
--Potential Residual Plot
--Run a multiple regression
--See which variables are significant
--Run the regression again without the insignificant variables
--Summary/Conclusion
-
-
 ##Plot of Stats against Rating
 ```{r}
 qbrating2 %>% gather(stats,x, c(completions:percent.complete, yards:average.yards, td:long, twenty.plus:sacks)) %>% 
@@ -57,23 +47,17 @@ qbrating2 %>% gather(stats,x, c(completions:percent.complete, yards:average.yard
 ```
 Here we plotted the stats against of rating of each player to get some visuals of the data and also get some potential pattern between each individual player statistic and rating. Here we see that for each category there seems to be some sort of linear trends, so maybe a linear model would be best when it comes to model fitting.
 
-##Plot of Stats against Rating
-```{r}
-qbrating2 %>% gather(stats,x, c(completions:sacks)) %>% 
-  ggplot(aes(x=x,y=rating,color = player))+geom_point()+facet_wrap(~stats,scales = "free")
-```
 
 ## Attempt to do residuals.
 ```{r}
-#.remove = qbrating[,-(1:4)]
-#.remove
 .remove = qbrating2[,-(1:4)]
-#.remove
 model2 = lm(rating~completions+attempts+percent.complete+attempts.game+yards+average.yards+yards.per.game+td+int+first.down+first.down.percent+long+twenty.plus+forty.plus+sacks, data=.remove)
-plot(model2)
-residuals = resid(model2)
-plot(residuals)
+g.1 = ggplot(model2, aes(y=.resid,x=.fitted))+geom_point()
+g.1
+# residuals = resid(model2)
+# plot(residuals)
 ```
+
 
 ## Attempt to do regression:
 
@@ -83,7 +67,6 @@ summary(NFL_reg)
 
 tidy(NFL_reg) %>% arrange(p.value)
 ```
-
 Only average.yards, td, int, first.down.percent have p-values below 0.05. What if we remove forty.plus (highest p-value)?
 
 ```{r}
@@ -92,7 +75,6 @@ summary(NFL_reg2)
 
 tidy(NFL_reg2) %>% arrange(p.value)
 ```
-
 The value for R-squared (0.9253) does not change by much, although we do see a shift in p-values. What if we remove twenty.plus now?
 
 ```{r}
@@ -101,7 +83,6 @@ summary(NFL_reg3)
 
 tidy(NFL_reg3) %>% arrange(p.value)
 ```
-
 Still not a large change in R-squared. We remove completions:
 
 ```{r}
@@ -110,7 +91,6 @@ summary(NFL_reg4)
 
 tidy(NFL_reg4) %>% arrange(p.value)
 ```
-
 We also drop long:
 
 ```{r}
@@ -119,7 +99,6 @@ summary(NFL_reg5)
 
 tidy(NFL_reg5) %>% arrange(p.value)
 ```
-
 Dropping sacks:
 
 ```{r}
@@ -128,9 +107,6 @@ summary(NFL_reg6)
 
 tidy(NFL_reg6) %>% arrange(p.value)
 ```
-
-
-
 Despite removing many variables, we do not see a significant change in our R-squared. Let us see what happens when we remove first.down:
 
 ```{r}
@@ -139,42 +115,22 @@ summary(NFL_reg7)
 
 tidy(NFL_reg7) %>% arrange(p.value)
 ```
+After removing first.down there does not seem to be much change in the R-squared value and we see that what we have left are now only the variables for which P-value are less than 0.05, which means that all those variable are now significant and this is where we stop the elimination process.
 
-*HERE IS WHERE NAVIN STOPPED*
-
-We see a larger drop in our value of R-squared. Now what if we dropped td?
-
-```{r}
-NFL_reg8 = lm(rating~yards+int+first.down+first.down.percent, data=qbrating2)
-summary(NFL_reg8)
-```
-
-All values are significant. We have a R-squared value of 0.8135 (compared to the 0.8511 we started with) which is not much of a drop. 
 
 ## Residuals for model 7
 ```{r}
-res = resid(NFL_reg7)
-plot(res)
-```
-
-
-
-
-```{r}
 g.2 = ggplot(NFL_reg7, aes(y=.resid,x=.fitted))+geom_point()
-
 g.2
 ```
-
 
 ```{r}
 g3=augment(NFL_reg7, qbrating2) %>% 
   gather(stats,x, c(completions:percent.complete, yards, td:long, twenty.plus:sacks)) %>%
   ggplot(aes(x=x,y=.resid))+geom_point()+facet_wrap(~stats,scales = "free")
-
 g3
 ```
-*INSERT EXPLANATION*
+Here, we see that none of the plot showed any sort of pattern, could say there is a cluster for percent.complete and first.down.percent however that is just the nature of the data points, so is not a concern. So from this we can confirm the validity of our model.
 
 ## Conclusion
 
