@@ -55,8 +55,7 @@ Steps:
 qbrating2 %>% gather(stats,x, c(completions:percent.complete, yards:average.yards, td:long, twenty.plus:sacks)) %>% 
   ggplot(aes(x=x,y=rating))+geom_point()+facet_wrap(~stats,scales = "free")
 ```
-
-*INSERT EXPLANATION*
+Here we plotted the stats against of rating of each player to get some visuals of the data and also get some potential pattern between each individual player statistic and rating. Here we see that for each category there seems to be some sort of linear trends, so maybe a linear model would be best when it comes to model fitting.
 
 ##Plot of Stats against Rating
 ```{r}
@@ -69,8 +68,8 @@ qbrating2 %>% gather(stats,x, c(completions:sacks)) %>%
 #.remove = qbrating[,-(1:4)]
 #.remove
 .remove = qbrating2[,-(1:4)]
-.remove
-model2 = glm(rating~completions+attempts+percent.complete+attempts.game+yards+average.yards+yards.per.game+td+int+first.down+first.down.percent+long+twenty.plus+forty.plus+sacks, data=.remove)
+#.remove
+model2 = lm(rating~completions+attempts+percent.complete+attempts.game+yards+average.yards+yards.per.game+td+int+first.down+first.down.percent+long+twenty.plus+forty.plus+sacks, data=.remove)
 plot(model2)
 residuals = resid(model2)
 plot(residuals)
