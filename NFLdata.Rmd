@@ -63,9 +63,11 @@ qbrating %>% gather(stats,x, c(completions:sacks)) %>%
 
 ## Attempt to do residuals.
 ```{r}
-.remove = qbrating[,-(1:4)]
+#.remove = qbrating[,-(1:4)]
+#.remove
+.remove = qbrating2[,-(1:4)]
 .remove
-model2 = glm(rating~completions+attempts+percent.complete+attempts.game+yards+average.yards+yards.per.game+td+int+first.down+first.down.percent+twenty.plus+forty.plus+sacks, data=.remove)
+model2 = glm(rating~completions+attempts+percent.complete+attempts.game+yards+average.yards+yards.per.game+td+int+first.down+first.down.percent+long+twenty.plus+forty.plus+sacks, data=.remove)
 plot(model2)
 residuals = resid(model2)
 plot(residuals)
