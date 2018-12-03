@@ -178,4 +178,11 @@ g3
 
 ## Conclusion
 
-After careful analysis we can see that not all variables provided in the dataset were important in predicting the quarterbacks' effeciency rating. 
+After careful analysis we can see that not all variables provided in the dataset were important in predicting the quarterbacks' 
+efficiency ratings. If we look at model 7, it is the best in terms of how good our R-squared value is and the fact that whenever we
+drop another variable from the model, R-squared takes a big hit. The significant variables in model 7 are the following: attempts,
+percent.complete, yards, average.yards, td, int, and first.down.percent. Intuitively, this makes sense. The model takes into account
+both the offensive (in touchdowns and passing, which is expressed by yards and average.yards) and defensive (interceptions)
+aspects of the game, while taking into account consistent, smart play in percent.complete (i.e. successfully catching the ball so the 
+enemy team does not get it). The other statistics are heavily influenced by these 7 so they can be dropped since they are essentially 
+side effects of the others. Hence, the most important variables are the ones expressed within model 7.
