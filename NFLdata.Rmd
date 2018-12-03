@@ -141,4 +141,7 @@ percent.complete, yards, average.yards, td, int, and first.down.percent. Intuiti
 both the offensive (in touchdowns and passing, which is expressed by yards and average.yards) and defensive (interceptions)
 aspects of the game, while taking into account consistent, smart play in percent.complete (i.e. successfully catching the ball so the 
 enemy team does not get it). The other statistics are heavily influenced by these 7 so they can be dropped since they are essentially 
-side effects of the others. Hence, the most important variables are the ones expressed within model 7.
+side effects of the others. Hence, the most important variables are the ones expressed within model 7. Also noting, the actual formula takes 
+into account attempts, number of completions, yards, touchdowns and interceptions. Our analysis did come very close by including attempts, 
+completion percentage (completions divided by attempts), yards, touchdowns and interceptions and yards per pass (yards divided by attempts), 
+but our model also included first.down.percentage which isn't included in the actual formula.    
