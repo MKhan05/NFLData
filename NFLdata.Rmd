@@ -30,7 +30,7 @@ my_url = "http://www.utsc.utoronto.ca/%7ebutler/c32/qbrating.txt"
 
 qbrating = read.table(my_url, head=T)
 qbrating
-qbrating2 = qbrating %>% separate(long, c("long", "TD"), 2)
+qbrating2 = qbrating %>% separate(long, c("long", "went.for.TD"), 2)
 qbrating2
 qbrating2$long <- as.integer(as.character(qbrating2$long))
 qbrating2
@@ -52,7 +52,7 @@ Steps:
 
 ##Plot of Stats against Rating
 ```{r}
-qbrating2 %>% gather(stats,x, c(completions:percent.complete, yards, td:long, twenty.plus:sacks)) %>% 
+qbrating2 %>% gather(stats,x, c(completions:percent.complete, yards:average.yards, td:long, twenty.plus:sacks)) %>% 
   ggplot(aes(x=x,y=rating))+geom_point()+facet_wrap(~stats,scales = "free")
 ```
 
@@ -78,25 +78,25 @@ plot(residuals)
 ## Attempt to do regression:
 
 ```{r}
-NFL_reg = lm(rating~completions+attempts+percent.complete+yards+td+int+first.down+first.down.percent+long+twenty.plus+forty.plus+sacks, data=qbrating2)
+NFL_reg = lm(rating~completions+attempts+percent.complete+yards+average.yards+td+int+first.down+first.down.percent+long+twenty.plus+forty.plus+sacks, data=qbrating2)
 summary(NFL_reg)
 
 tidy(NFL_reg) %>% arrange(p.value)
 ```
 
-Only td, int, first.down and first.down.percent have p-values below 0.05. What if we remove sacks (highest p-value)?
+Only average.yards, td, int, first.down.percent have p-values below 0.05. What if we remove forty.plus (highest p-value)?
 
 ```{r}
-NFL_reg2 = lm(rating~completions+attempts+percent.complete+yards+td+int+first.down+first.down.percent+long+forty.plus, data=qbrating2)
+NFL_reg2 = lm(rating~completions+attempts+percent.complete+yards+average.yards+td+int+first.down+first.down.percent+long+twenty.plus+sacks, data=qbrating2)
 summary(NFL_reg2)
 
 tidy(NFL_reg2) %>% arrange(p.value)
 ```
 
-The value for R-squared (0.855) does not change by much, although we do see a shift in p-values. What if we remove forty.plus now?
+The value for R-squared (0.9253) does not change by much, although we do see a shift in p-values. What if we remove twenty.plus now?
 
 ```{r}
-NFL_reg3 = lm(rating~completions+attempts+percent.complete+yards+td+int+first.down+first.down.percent+long, data=qbrating2)
+NFL_reg3 = lm(rating~completions+attempts+percent.complete+yards+average.yards+td+int+first.down+first.down.percent+long+sacks, data=qbrating2)
 summary(NFL_reg3)
 
 tidy(NFL_reg3) %>% arrange(p.value)
@@ -105,7 +105,7 @@ tidy(NFL_reg3) %>% arrange(p.value)
 Still not a large change in R-squared. We remove completions:
 
 ```{r}
-NFL_reg4 = lm(rating~attempts+percent.complete+yards+td+int+first.down+first.down.percent+long, data=qbrating2)
+NFL_reg4 = lm(rating~attempts+percent.complete+yards+average.yards+td+int+first.down+first.down.percent+long+sacks, data=qbrating2)
 summary(NFL_reg4)
 
 tidy(NFL_reg4) %>% arrange(p.value)
@@ -114,31 +114,33 @@ tidy(NFL_reg4) %>% arrange(p.value)
 We also drop long:
 
 ```{r}
-NFL_reg5 = lm(rating~attempts+percent.complete+yards+td+int+first.down+first.down.percent, data=qbrating2)
+NFL_reg5 = lm(rating~attempts+percent.complete+yards+average.yards+td+int+first.down+first.down.percent+sacks, data=qbrating2)
 summary(NFL_reg5)
 
 tidy(NFL_reg5) %>% arrange(p.value)
 ```
 
-Dropping percent.complete:
+Dropping sacks:
 
 ```{r}
-NFL_reg6 = lm(rating~attempts+yards+td+int+first.down+first.down.percent, data=qbrating2)
+NFL_reg6 = lm(rating~attempts+percent.complete+yards+average.yards+td+int+first.down+first.down.percent, data=qbrating2)
 summary(NFL_reg6)
 
 tidy(NFL_reg6) %>% arrange(p.value)
 ```
 
-*HERE IS WHERE NAVIN STOPPED*
 
-Despite removing many variables, we do not see a significant change in our R-squared. Let us see what happens when we remove attempts:
+
+Despite removing many variables, we do not see a significant change in our R-squared. Let us see what happens when we remove first.down:
 
 ```{r}
-NFL_reg7 = lm(rating~yards+td+int+first.down+first.down.percent, data=qbrating2)
+NFL_reg7 = lm(rating~attempts+percent.complete+yards+average.yards+td+int+first.down.percent, data=qbrating2)
 summary(NFL_reg7)
 
 tidy(NFL_reg7) %>% arrange(p.value)
 ```
+
+*HERE IS WHERE NAVIN STOPPED*
 
 We see a larger drop in our value of R-squared. Now what if we dropped td?
 
