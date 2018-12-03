@@ -56,10 +56,11 @@ qbrating2 %>% gather(stats,x, c(completions:percent.complete, yards:average.yard
   ggplot(aes(x=x,y=rating))+geom_point()+facet_wrap(~stats,scales = "free")
 ```
 
+*INSERT EXPLANATION*
 
 ##Plot of Stats against Rating
 ```{r}
-qbrating %>% gather(stats,x, c(completions:sacks)) %>% 
+qbrating2 %>% gather(stats,x, c(completions:sacks)) %>% 
   ggplot(aes(x=x,y=rating,color = player))+geom_point()+facet_wrap(~stats,scales = "free")
 ```
 
@@ -158,11 +159,7 @@ plot(res)
 ```
 
 
-```{r}
-g=ggplot(NFL_reg6, aes(y=.resid,x=.fitted))+geom_point()
 
-g
-```
 
 ```{r}
 g.2 = ggplot(NFL_reg7, aes(y=.resid,x=.fitted))+geom_point()
@@ -170,8 +167,9 @@ g.2 = ggplot(NFL_reg7, aes(y=.resid,x=.fitted))+geom_point()
 g.2
 ```
 
+
 ```{r}
-g3=augment(NFL_reg6, qbrating2) %>% 
+g3=augment(NFL_reg7, qbrating2) %>% 
   gather(stats,x, c(completions:percent.complete, yards, td:long, twenty.plus:sacks)) %>%
   ggplot(aes(x=x,y=.resid))+geom_point()+facet_wrap(~stats,scales = "free")
 
