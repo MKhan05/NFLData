@@ -175,7 +175,7 @@ g3=augment(NFL_reg7, qbrating2) %>%
 
 g3
 ```
-
+*INSERT EXPLANATION*
 
 ## Conclusion
 
