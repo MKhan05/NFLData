@@ -32,6 +32,8 @@ qbrating = read.table(my_url, head=T)
 qbrating
 qbrating2 = qbrating %>% separate(long, c("long", "TD"), 2)
 qbrating2
+qbrating2$long <- as.integer(as.character(qbrating2$long))
+qbrating2
 ```
 Here, our data is a 49 rows by 20 columns data set with categories rankings, player names, teams and various player statistics (i.e. completions, attempts).
 
@@ -76,7 +78,7 @@ plot(residuals)
 ## Attempt to do regression:
 
 ```{r}
-NFL_reg = lm(rating~completions+attempts+percent.complete+yards+td+int+first.down+first.down.percent+twenty.plus+forty.plus+sacks, data=qbrating)
+NFL_reg = lm(rating~completions+attempts+percent.complete+yards+td+int+first.down+first.down.percent+twenty.plus+forty.plus+sacks, data=qbrating2)
 summary(NFL_reg)
 ```
 
