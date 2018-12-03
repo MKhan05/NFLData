@@ -134,14 +134,16 @@ tidy(NFL_reg6) %>% arrange(p.value)
 Despite removing many variables, we do not see a significant change in our R-squared. Let us see what happens when we remove attempts:
 
 ```{r}
-NFL_reg7 = lm(rating~yards+td+int+first.down+first.down.percent, data=qbrating)
+NFL_reg7 = lm(rating~yards+td+int+first.down+first.down.percent, data=qbrating2)
 summary(NFL_reg7)
+
+tidy(NFL_reg7) %>% arrange(p.value)
 ```
 
 We see a larger drop in our value of R-squared. Now what if we dropped td?
 
 ```{r}
-NFL_reg8 = lm(rating~yards+int+first.down+first.down.percent, data=qbrating)
+NFL_reg8 = lm(rating~yards+int+first.down+first.down.percent, data=qbrating2)
 summary(NFL_reg8)
 ```
 
@@ -167,7 +169,8 @@ g.2
 ```
 
 ```{r}
-g3=augment(NFL_reg7, qbrating) %>% gather(stats,x, c(completions:sacks)) %>% 
+g3=augment(NFL_reg6, qbrating2) %>% 
+  gather(stats,x, c(completions:percent.complete, yards, td:long, twenty.plus:sacks)) %>%
   ggplot(aes(x=x,y=.resid))+geom_point()+facet_wrap(~stats,scales = "free")
 
 g3
