@@ -6,6 +6,8 @@ output: html_document
 ---
 
 
+# Going deep: What Are the Makings of a Prolific Passer in the NFL? 
+
 ## Introduction
 
 In any professional sports league (here, being the NFL), one of the things us fans really like to do is rank players in terms of skill. 
@@ -125,8 +127,5 @@ plot(res)
 ```
 
 
-## Using built in R function to double check backwards elimination:
-```{r}
-step(NFL_reg, direction="backward")
-```
+
 
