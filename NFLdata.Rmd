@@ -16,7 +16,7 @@ specifically, comparing their player efficiency ratings (PER). This efficiency r
 statistics but obviously some statistics should be weighted more than others (i.e. touchdowns should be worth more than number of 
 passing attempts.). Our goal in this report is to figure out how exactly the NFL calculates player efficiency rating through the use of techniques learned within this course.
 
-
+The packages we will need for our analysis:
 ```{r}
 library(tidyverse)
 library(broom)
@@ -152,9 +152,9 @@ summary(NFL_reg8)
 
 All values are significant. We have a R-squared value of 0.8135 (compared to the 0.8511 we started with) which is not much of a drop. 
 
-## Residuals for model 8
+## Residuals for model 7
 ```{r}
-res = resid(NFL_reg8)
+res = resid(NFL_reg7)
 plot(res)
 ```
 
