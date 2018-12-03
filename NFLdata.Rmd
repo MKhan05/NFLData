@@ -30,6 +30,8 @@ my_url = "http://www.utsc.utoronto.ca/%7ebutler/c32/qbrating.txt"
 
 qbrating = read.table(my_url, head=T)
 qbrating
+qbrating2 = qbrating %>% separate(long, c("long", "TD"), 2)
+qbrating2
 ```
 Here, our data is a 49 rows by 20 columns data set with categories rankings, player names, teams and various player statistics (i.e. completions, attempts).
 
@@ -44,6 +46,13 @@ Steps:
 -See which variables are significant
 -Run the regression again without the insignificant variables
 -Summary/Conclusion
+
+
+##Plot of Stats against Rating
+```{r}
+qbrating2 %>% gather(stats,x, c(completions:percent.complete, yards, td:long, twenty.plus:sacks)) %>% 
+  ggplot(aes(x=x,y=rating))+geom_point()+facet_wrap(~stats,scales = "free")
+```
 
 
 ##Plot of Stats against Rating
