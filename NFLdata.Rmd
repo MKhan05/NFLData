@@ -5,7 +5,6 @@ date: "11/13/2018"
 output: html_document
 ---
 
-
 # Going deep: What Are the Makings of a Prolific Passer in the NFL? 
 
 ## Introduction
@@ -16,13 +15,11 @@ specifically, comparing their player efficiency ratings (PER). This efficiency r
 statistics but obviously some statistics should be weighted more than others (i.e. touchdowns should be worth more than number of 
 passing attempts.). Our goal in this report is to figure out how exactly the NFL calculates player efficiency rating through the use of techniques learned within this course.
 
-
 The packages we will need for our analysis:
 ```{r}
 library(tidyverse)
 library(broom)
 ```
-
 
 First to read in and display our data:
 ```{r}
@@ -60,7 +57,7 @@ g.1 = ggplot(model2, aes(y=.resid,x=.fitted))+geom_point()
 g.1
 ```
 
-The randomness here seem to be fine, small cluster but that shouldn't be a problem
+The randomness here seem to be fine, small cluster but that shouldn't be a problem.
 
 ## Attempt to do regression:
 
@@ -111,7 +108,6 @@ summary(NFL_reg5)
 
 tidy(NFL_reg5) %>% arrange(p.value)
 ```
-
 Dropping sacks:
 
 ```{r}
@@ -134,9 +130,10 @@ tidy(NFL_reg7) %>% arrange(p.value)
 
 After removing first.down there does not seem to be much change in the R-squared value and we see that what we have left are now only the variables for which P-value are less than 0.05, which means that all those variable are now significant and this is where we stop the elimination process.
 
-
 ## Residuals for model 7
-Now we check the residuals plot again to check for validity
+
+Now we check the residuals plot again to check for validity:
+
 ```{r}
 g.2 = ggplot(NFL_reg7, aes(y=.resid,x=.fitted))+geom_point()
 g.2
@@ -151,11 +148,10 @@ g3
 
 Here, we see that none of the plot showed any sort of pattern, could say there is a cluster for percent.complete and first.down.percent however that is just the nature of the data points, so is not a concern. So from this we can confirm the validity of our model.
 
-
 ### Side note
+
 Also noting, the actual formula takes into account attempts, number of completions, yards, touchdowns and interceptions. Our analysis did come very close by including attempts, completion percentage (completions divided by attempts), yards, touchdowns and interceptions and yards per pass (yards divided by attempts), 
 but our model also included first.down.percentage which isn't included in the actual formula.    
-
 
 ## Conclusion
 
