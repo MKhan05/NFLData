@@ -35,6 +35,7 @@ qbrating2
 qbrating2$long <- as.integer(as.character(qbrating2$long))
 qbrating2
 ```
+
 Here, our data is a 49 rows by 20 columns data set with categories rankings, player names, teams and various player statistics (i.e. completions, attempts).
 
 Looking at the statistics in the data frame and using our prior knowledge that the qbrating was calculated over the whole season we will only consider the season's total when running our analysis. Therefore attempts.game and yards.per.game will be omitted because they are per game stats.
@@ -45,7 +46,8 @@ Looking at the statistics in the data frame and using our prior knowledge that t
 qbrating2 %>% gather(stats,x, c(completions:percent.complete, yards:average.yards, td:long, twenty.plus:sacks)) %>% 
   ggplot(aes(x=x,y=rating))+geom_point()+facet_wrap(~stats,scales = "free")
 ```
-Here we plotted the stats against of rating of each player to get some visuals of the data and also get some potential pattern between each individual player statistic and rating. Here we see that for each category there seems to be some sort of linear trends, so maybe a linear model would be best when it comes to model fitting.
+
+Here we plotted the stats against the rating of each player to get some visuals of the data and also get some potential pattern between each individual player statistic and rating. Here we see that for each category there seems to be some sort of linear trends, so maybe a linear model would be best when it comes to model fitting.
 
 
 ## Attempt to do residuals.
@@ -68,6 +70,7 @@ summary(NFL_reg)
 
 tidy(NFL_reg) %>% arrange(p.value)
 ```
+
 Only average.yards, td, int, first.down.percent have p-values below 0.05. What if we remove forty.plus (highest p-value)?
 
 ```{r}
@@ -77,6 +80,7 @@ summary(NFL_reg2)
 
 tidy(NFL_reg2) %>% arrange(p.value)
 ```
+
 The value for R-squared (0.9253) does not change by much, although we do see a shift in p-values. What if we remove twenty.plus now?
 
 ```{r}
@@ -86,6 +90,7 @@ summary(NFL_reg3)
 
 tidy(NFL_reg3) %>% arrange(p.value)
 ```
+
 Still not a large change in R-squared. We remove completions:
 
 ```{r}
@@ -95,6 +100,7 @@ summary(NFL_reg4)
 
 tidy(NFL_reg4) %>% arrange(p.value)
 ```
+
 We also drop long:
 
 ```{r}
@@ -104,6 +110,7 @@ summary(NFL_reg5)
 
 tidy(NFL_reg5) %>% arrange(p.value)
 ```
+
 Dropping sacks:
 
 ```{r}
@@ -113,6 +120,7 @@ summary(NFL_reg6)
 
 tidy(NFL_reg6) %>% arrange(p.value)
 ```
+
 Despite removing many variables, we do not see a significant change in our R-squared. Let us see what happens when we remove first.down:
 
 ```{r}
@@ -122,6 +130,7 @@ summary(NFL_reg7)
 
 tidy(NFL_reg7) %>% arrange(p.value)
 ```
+
 After removing first.down there does not seem to be much change in the R-squared value and we see that what we have left are now only the variables for which P-value are less than 0.05, which means that all those variable are now significant and this is where we stop the elimination process.
 
 
@@ -138,6 +147,7 @@ g3=augment(NFL_reg7, qbrating2) %>%
   ggplot(aes(x=x,y=.resid))+geom_point()+facet_wrap(~stats,scales = "free")
 g3
 ```
+
 Here, we see that none of the plot showed any sort of pattern, could say there is a cluster for percent.complete and first.down.percent however that is just the nature of the data points, so is not a concern. So from this we can confirm the validity of our model.
 
 
