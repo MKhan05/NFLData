@@ -37,7 +37,7 @@ qbrating2
 ```
 Here, our data is a 49 rows by 20 columns data set with categories rankings, player names, teams and various player statistics (i.e. completions, attempts).
 
-Looking at the statistics in the data frame and using our prior knowledge that the qbrating was calculated over the whole season we will only consider the season totals when running our analysis. There for attempts.game and yards.per.game will be omitted because they are per game stats.
+Looking at the statistics in the data frame and using our prior knowledge that the qbrating was calculated over the whole season we will only consider the season's total when running our analysis. Therefore attempts.game and yards.per.game will be omitted because they are per game stats.
 
 
 ##Plot of Stats against Rating
@@ -51,11 +51,11 @@ Here we plotted the stats against of rating of each player to get some visuals o
 ## Attempt to do residuals.
 ```{r}
 .remove = qbrating2[,-(1:4)]
+
 model2 = lm(rating~completions+attempts+percent.complete+attempts.game+yards+average.yards+yards.per.game+td+int+first.down+first.down.percent+long+twenty.plus+forty.plus+sacks, data=.remove)
+
 g.1 = ggplot(model2, aes(y=.resid,x=.fitted))+geom_point()
 g.1
-# residuals = resid(model2)
-# plot(residuals)
 ```
 
 
@@ -63,6 +63,7 @@ g.1
 
 ```{r}
 NFL_reg = lm(rating~completions+attempts+percent.complete+yards+average.yards+td+int+first.down+first.down.percent+long+twenty.plus+forty.plus+sacks, data=qbrating2)
+
 summary(NFL_reg)
 
 tidy(NFL_reg) %>% arrange(p.value)
@@ -71,6 +72,7 @@ Only average.yards, td, int, first.down.percent have p-values below 0.05. What i
 
 ```{r}
 NFL_reg2 = lm(rating~completions+attempts+percent.complete+yards+average.yards+td+int+first.down+first.down.percent+long+twenty.plus+sacks, data=qbrating2)
+
 summary(NFL_reg2)
 
 tidy(NFL_reg2) %>% arrange(p.value)
@@ -79,6 +81,7 @@ The value for R-squared (0.9253) does not change by much, although we do see a s
 
 ```{r}
 NFL_reg3 = lm(rating~completions+attempts+percent.complete+yards+average.yards+td+int+first.down+first.down.percent+long+sacks, data=qbrating2)
+
 summary(NFL_reg3)
 
 tidy(NFL_reg3) %>% arrange(p.value)
@@ -87,6 +90,7 @@ Still not a large change in R-squared. We remove completions:
 
 ```{r}
 NFL_reg4 = lm(rating~attempts+percent.complete+yards+average.yards+td+int+first.down+first.down.percent+long+sacks, data=qbrating2)
+
 summary(NFL_reg4)
 
 tidy(NFL_reg4) %>% arrange(p.value)
@@ -95,6 +99,7 @@ We also drop long:
 
 ```{r}
 NFL_reg5 = lm(rating~attempts+percent.complete+yards+average.yards+td+int+first.down+first.down.percent+sacks, data=qbrating2)
+
 summary(NFL_reg5)
 
 tidy(NFL_reg5) %>% arrange(p.value)
@@ -103,6 +108,7 @@ Dropping sacks:
 
 ```{r}
 NFL_reg6 = lm(rating~attempts+percent.complete+yards+average.yards+td+int+first.down+first.down.percent, data=qbrating2)
+
 summary(NFL_reg6)
 
 tidy(NFL_reg6) %>% arrange(p.value)
@@ -111,6 +117,7 @@ Despite removing many variables, we do not see a significant change in our R-squ
 
 ```{r}
 NFL_reg7 = lm(rating~attempts+percent.complete+yards+average.yards+td+int+first.down.percent, data=qbrating2)
+
 summary(NFL_reg7)
 
 tidy(NFL_reg7) %>% arrange(p.value)
@@ -119,6 +126,7 @@ After removing first.down there does not seem to be much change in the R-squared
 
 
 ## Residuals for model 7
+Now we check the residuals plot again to check for validity
 ```{r}
 g.2 = ggplot(NFL_reg7, aes(y=.resid,x=.fitted))+geom_point()
 g.2
@@ -137,13 +145,8 @@ Here, we see that none of the plot showed any sort of pattern, could say there i
 Also noting, the actual formula takes into account attempts, number of completions, yards, touchdowns and interceptions. Our analysis did come very close by including attempts, completion percentage (completions divided by attempts), yards, touchdowns and interceptions and yards per pass (yards divided by attempts), 
 but our model also included first.down.percentage which isn't included in the actual formula.    
 
+
 ## Conclusion
 
-After careful analysis we can see that not all variables provided in the dataset were important in predicting the quarterbacks' 
-efficiency ratings. If we look at model 7, it is the best in terms of how good our R-squared value is and the fact that whenever we
-drop another variable from the model, R-squared takes a big hit. The significant variables in model 7 are the following: attempts,
-percent.complete, yards, average.yards, td, int, and first.down.percent. Intuitively, this makes sense. The model takes into account
-both the offensive (in touchdowns and passing, which is expressed by yards and average.yards) and defensive (interceptions)
-aspects of the game, while taking into account consistent, smart play in percent.complete (i.e. successfully catching the ball so the 
-enemy team does not get it). The other statistics are heavily influenced by these 7 so they can be dropped since they are essentially 
-side effects of the others. Hence, the most important variables are the ones expressed within model 7. 
+After careful analysis we can see that not all variables provided in the dataset were important in predicting the quarterbacks' efficiency ratings. If we look at model 7, it is the best in terms of how good our R-squared value is and the fact that whenever we drop another variable from the model, R-squared takes a big hit.
+The significant variables in model 7 are the following: attempts, percent.complete, yards, average.yards, td, int, and first.down.percent. Intuitively, this makes sense. The model takes into account both the offensive (in touchdowns and passing, which is expressed by yards and average.yards) and defensive (interceptions) aspects of the game, while taking into account consistent, smart play in percent.complete (i.e. successfully catching the ball so the enemy team does not get it). The other statistics are heavily influenced by these 7 so they can be dropped since they are essentially side effects of the others. Hence, the most important variables are the ones expressed within model 7. 
