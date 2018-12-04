@@ -29,9 +29,9 @@ First to read in and display our data:
 my_url = "http://www.utsc.utoronto.ca/%7ebutler/c32/qbrating.txt"
 
 qbrating = read.table(my_url, head=T)
-qbrating
+
 qbrating2 = qbrating %>% separate(long, c("long", "went.for.TD"), 2)
-qbrating2
+
 qbrating2$long <- as.integer(as.character(qbrating2$long))
 qbrating2
 ```
