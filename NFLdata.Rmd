@@ -1,11 +1,11 @@
 ---
-title: "NFLData"
+title: "Going deep: What Are the Makings of a Prolific Passer in the NFL? "
 author: "Navin Chandradat, Minhaz Khan, Vincent La, Truman Zheng, Stephen Pereira"
 date: "11/13/2018"
 output: html_document
 ---
 
-# Going deep: What Are the Makings of a Prolific Passer in the NFL? 
+
 
 ## Introduction
 
