@@ -41,7 +41,7 @@ Here, our data is a 49 rows by 20 columns data set with categories rankings, pla
 Looking at the statistics in the data frame and using our prior knowledge that the qbrating was calculated over the whole season we will only consider the season's total when running our analysis. Therefore attempts.game and yards.per.game will be omitted because they are per game stats.
 
 
-##Plot of Stats against Rating
+## Plot of Stats against Rating
 ```{r}
 qbrating2 %>% gather(stats,x, c(completions:percent.complete, yards:average.yards, td:long, twenty.plus:sacks)) %>% 
   ggplot(aes(x=x,y=rating))+geom_point()+facet_wrap(~stats,scales = "free")
@@ -60,6 +60,7 @@ g.1 = ggplot(model2, aes(y=.resid,x=.fitted))+geom_point()
 g.1
 ```
 
+The randomness here seem to be fine, small cluster but that shouldn't be a problem
 
 ## Attempt to do regression:
 
@@ -142,7 +143,7 @@ g.2
 ```
 
 ```{r}
-g3=augment(NFL_reg7, qbrating2) %>% 
+g3 = augment(NFL_reg7, qbrating2) %>% 
   gather(stats,x, c(completions:percent.complete, yards, td:long, twenty.plus:sacks)) %>%
   ggplot(aes(x=x,y=.resid))+geom_point()+facet_wrap(~stats,scales = "free")
 g3
